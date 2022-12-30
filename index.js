@@ -12,7 +12,8 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@clu
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 const myTasksCollection = client.db("task-master").collection("my-tasks");
-const completedTasks = client.db("task-master").collection("completed-tasks")
+const completedTasks = client.db("task-master").collection("completed-tasks");
+
 app.get('/', (req, res) => {
     res.send('task server running')
 })
