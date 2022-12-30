@@ -31,6 +31,12 @@ async function run(){
             const result = await myTasksCollection.find(query).toArray();
             res.send(result)
         })
+        app.get('/myTask/:id', async(req, res)=> {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await myTasksCollection.findOne(query);
+            res.send(result)
+        })
         app.post('/completedTask', async(req, res)=> {
             const task = req.body;
             const result = await completedTasks.insertOne(task);
@@ -43,6 +49,23 @@ async function run(){
             res.send(result)
         })
         app.delete('/tasks/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = {_id : id}
+            const result = await completedTasks.deleteOne(filter);
+            res.send(result)
+        })
+        app.patch('/myTask/:id', async (req, res)=> {
+            const id = req.params.id;
+            const filter = {_id : ObjectId(id)}
+            const updateDoc = {
+                $set: {
+                    status: "complete"
+                }
+            };
+            const result = await myTasksCollection.updateOne(filter, updateDoc);
+            res.send(result)
+        })
+        app.delete('/myTask/:id', async (req, res) => {
             const id = req.params.id;
             const filter = {_id : ObjectId(id)}
             const result = await myTasksCollection.deleteOne(filter);
